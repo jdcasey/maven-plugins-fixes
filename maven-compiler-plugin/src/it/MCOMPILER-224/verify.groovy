@@ -16,6 +16,36 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-def sourceFile = new File( basedir, 'target/generated-sources/org/issue/Person_.java')
-assert sourceFile.exists()
+def log = new File( basedir, 'build.log').text
+
+def noteExists = log.contains( "[INFO] NOTE Test message." )
+def otherExists =  log.contains( "[INFO] OTHER Test message." )
+def warningExists = log.contains( "[WARNING] WARNING Test message." )
+def mandatoryWarningExists = log.contains( "[WARNING] MANDATORY_WARNING Test message." )
+
+def fail = false
+def messages = "The following assertions were violated:"
+if ( !noteExists ){
+    messages += "\nNOTE message not logged in INFO level!"
+    fail = true
+}
+
+if ( !otherExists ){
+    messages += "\nOTHER message not logged in INFO level!"
+    fail = true
+}
+
+if ( !warningExists ){
+    messages += "\nWARNING message not logged in WARNING level!"
+    fail = true
+}
+
+if ( !mandatoryWarningExists ){
+    messages += "\nMANDATORY_WARNING message not logged in WARNING level!"
+    fail = true
+}
+
+if ( fail ){
+    throw new RuntimeException( messages )
+}
 

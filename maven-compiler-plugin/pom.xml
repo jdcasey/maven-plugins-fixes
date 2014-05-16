@@ -258,13 +258,18 @@ under the License.
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-invoker-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>integration-test</id>
               <configuration>
                 <debug>true</debug>
                 <projectsDirectory>src/it</projectsDirectory>
                 <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+                <mavenExecutable>mvnDebug</mavenExecutable>
                 <pomIncludes>
-                  <pomInclude>*/pom.xml</pomInclude>
-                  <pomInclude>extras/*/pom.xml</pomInclude>
+                  <pomInclude>MCOMPILER-224/pom.xml</pomInclude>
+                  <!-- pomInclude>*/pom.xml</pomInclude>
+                  <pomInclude>extras/*/pom.xml</pomInclude -->
                 </pomIncludes>
                 <postBuildHookScript>verify</postBuildHookScript>
                 <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
@@ -274,6 +279,8 @@ under the License.
                   <goal>test-compile</goal>
                 </goals>
               </configuration>
+                </execution>
+              </executions>
             </plugin>
           </plugins>
         </pluginManagement>

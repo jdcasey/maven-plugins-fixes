@@ -24,14 +24,22 @@ public class MCompiler224AnnotationProcessor
     @Override
     public boolean process( final Set<? extends TypeElement> elts, final RoundEnvironment env )
     {
-        System.out.println( "RUNNING on: " + elts );
+        if ( elts.isEmpty() )
+        {
+            return true;
+        }
+
         final Messager messager = this.processingEnv.getMessager();
 
-        final Kind[] toTest = { Kind.MANDATORY_WARNING, Kind.NOTE, Kind.OTHER, Kind.WARNING };
-
-        for ( final Kind kind : toTest )
+        for ( final Kind kind : Kind.values() )
         {
-            messager.printMessage( kind, "Testing message with KIND: " + kind );
+            if ( Kind.ERROR == kind )
+            {
+                continue;
+            }
+
+            System.out.println( "Testing message for: " + kind );
+            messager.printMessage( kind, kind + " Test message." );
         }
 
         return true;
